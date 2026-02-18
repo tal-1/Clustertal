@@ -40,28 +40,37 @@ You can deploy the stack components directly from your terminal using Helm.
 
 ### **1. Infrastructure (Ingress & Monitoring):**
 #### Install NGINX Ingress Controller:
-`helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
-  --namespace ingress-nginx --create-namespace`
+```bash
+helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+```
 
 #### Install Monitoring Stack:
-`helm upgrade --install my-prometheus prometheus-community/kube-prometheus-stack \
-  --namespace monitoring --create-namespace`
+```bash
+helm upgrade --install my-prometheus prometheus-community/kube-prometheus-stack \
+  --namespace monitoring --create-namespace
+```
 
 ### **2. Database (StatefulSet):**
 #### Deploy MariaDB:
-`helm install my-db ./db`
+```bash
+helm install my-db ./db
+```
 
 ### **3. Application (Deployment):**
 #### Deploy WordPress:
-`helm install my-wordpress ./wordpress`
+```bash
+helm install my-wordpress ./wordpress
+```
 
 ## **Monitoring**
 For a visual interface, you can access the Grafana Dashboard to monitor container uptime.
 
 #### Accessing Grafana
 Since this runs on Minikube, forward the port to your local machine:
-
-`kubectl port-forward -n monitoring svc/my-prometheus-grafana 3000:80 --address 0.0.0.0 &`
+```bash
+kubectl port-forward -n monitoring svc/my-prometheus-grafana 3000:80 --address 0.0.0.0 &
+```
 
 URL: http://localhost:3000
 
@@ -71,7 +80,9 @@ password can be retrieved using the command:
 
 #### Uptime Visualization
 To visualize the specific uptime of the WordPress pod, use the following PromQL query in the "Explore" tab:
-`time() - kube_pod_start_time{namespace="default", pod=~"my-wordpress.*"}`
+```bash
+time() - kube_pod_start_time{namespace="default", pod=~"my-wordpress.*"}
+```
 
 #### Dashboard Preview:
 INSERT SCREENSHOT HERE
