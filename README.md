@@ -26,7 +26,9 @@ To ensure separation of concerns, the project is structured into three distinct 
 
 2.  **Setup:**
     # Start the cluster
-    `minikube start --driver=docker`
+    ```bash
+    minikube start --driver=docker
+    ```
 
     # Add required Helm repositories
     ```bash
@@ -76,14 +78,24 @@ URL: http://localhost:3000
 
 Credentials: User: admin | Password: (Retrieve via Secrets)
 password can be retrieved using the command:
-``
+```bash
+kubectl get secret --namespace monitoring my-prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
 
 #### Uptime Visualization
 To visualize the specific uptime of the WordPress pod, use the following PromQL query in the "Explore" tab:
 ```bash
-time() - kube_pod_start_time{namespace="default", pod=~"my-wordpress.*"}
+(time() - kube_pod_start_time{namespace="default", pod=~"my-wordpress.*"}) / 60
 ```
 
+* this option is recommended for readable uptime
+<img width="326" height="389" alt="image" src="https://github.com/user-attachments/assets/f2085135-d8bd-47b9-b380-a5090884b5b7" />
+<img width="326" height="389" alt="image" src="https://github.com/user-attachments/assets/f2085135-d8bd-47b9-b380-a5090884b5b7" />
+
+
 #### Dashboard Preview:
-INSERT SCREENSHOT HERE
+In this example, the pod is running for more than 21 hours, but the dashboard only exists less than 3 hours.
+<img width="462" height="297" alt="image" src="https://github.com/user-attachments/assets/8df6e70b-8e00-4c6f-aa29-25830444edc3" />
+<img width="462" height="297" alt="image" src="https://github.com/user-attachments/assets/8df6e70b-8e00-4c6f-aa29-25830444edc3" />
+
 
