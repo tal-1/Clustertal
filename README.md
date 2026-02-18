@@ -88,7 +88,7 @@ The application is exposed via the NGINX Ingress Controller at the hostname word
 
 There are 2 options:
 
-A:
+**A:**
 To access the URL from your browser, you must map the Minikube IP to the hostname (on windows might need to run as Admin):
 ```bash
 # 1. Get Minikube IP
@@ -102,7 +102,7 @@ echo "$(minikube ip) wordpress.local" | sudo tee -a /etc/hosts
 Now navigate to: http://wordpress.local
 
 
-B:
+**B:**
 If you are running this on a remote server (like EC2) and cannot edit your local hosts file, forward the port directly:
 ```bash
 kubectl port-forward svc/my-wordpress 8080:80 --address 0.0.0.0 &
