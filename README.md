@@ -65,6 +65,64 @@ helm install my-db ./db
 helm install my-wordpress ./wordpress
 ```
 
+
+## **Usage & Verification**
+
+Once deployed, you can verify the status of your stack and access the WordPress application.
+
+### **1. Verify Status**
+Ensure all pods (Database and WordPress) are in the `Running` state:
+```bash
+kubectl get pods
+```
+
+Expected Output:
+```bash
+NAME                            READY   STATUS    RESTARTS   AGE
+my-db-db-1                      1/1     Running   0          2m
+my-wordpress-5d...              1/1     Running   0          1m
+```
+
+### **2. Accessing WordPress**
+The application is exposed via the NGINX Ingress Controller at the hostname wordpress.local.
+
+There are 2 options:
+
+A:
+To access the URL from your browser, you must map the Minikube IP to the hostname:
+```bash
+# 1. Get Minikube IP
+minikube ip
+
+# 2. Add to your hosts file (requires sudo)
+# Example: 192.168.49.2 wordpress.local
+echo "$(minikube ip) wordpress.local" | sudo tee -a /etc/hosts
+```
+
+Now navigate to: http://wordpress.local
+
+
+B:
+If you are running this on a remote server (like EC2) and cannot edit your local hosts file, forward the port directly:
+```bash
+kubectl port-forward svc/my-wordpress 8080:80 --address 0.0.0.0 &
+```
+
+URL: http://localhost:3000
+
+### **3. Cleanup**
+To remove the application and database but keep the infrastructure:
+```bash
+helm uninstall my-wordpress my-db
+```
+
+To remove everything (including monitoring and ingress):
+```bash
+helm uninstall ingress-nginx -n ingress-nginx
+helm uninstall my-prometheus -n monitoring
+minikube stop
+```
+
 ## **Monitoring**
 For a visual interface, you can access the Grafana Dashboard to monitor container uptime.
 
@@ -74,7 +132,6 @@ Since this runs on Minikube, forward the port to your local machine:
 kubectl port-forward -n monitoring svc/my-prometheus-grafana 3000:80 --address 0.0.0.0 &
 ```
 
-URL: http://localhost:3000
 
 Credentials: User: admin | Password: (Retrieve via Secrets)
 password can be retrieved using the command:
