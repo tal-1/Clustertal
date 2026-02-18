@@ -1,0 +1,21 @@
+image:
+  repository: 992382545251.dkr.ecr.us-east-1.amazonaws.com/molcho-wp-app
+  tag: latest
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: ecr-registry-secret
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  host: wordpress.local
+
+env:
+  WORDPRESS_DB_HOST: mysql
+  WORDPRESS_DB_USER: wordpress
+  WORDPRESS_DB_PASSWORD: wordpress
+  WORDPRESS_DB_NAME: wordpress

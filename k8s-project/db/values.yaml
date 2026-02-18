@@ -1,0 +1,20 @@
+image:
+  repository: 992382545251.dkr.ecr.us-east-1.amazonaws.com/molcho-wp-db
+  tag: latest
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: ecr-registry-secret
+
+service:
+  port: 3306
+
+storage:
+  size: 1Gi
+
+# Matches the variables from your docker-compose
+env:
+  MYSQL_ROOT_PASSWORD: password
+  MYSQL_DATABASE: wordpress
+  MYSQL_USER: wordpress
+  MYSQL_PASSWORD: wordpress
