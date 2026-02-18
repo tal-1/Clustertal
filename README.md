@@ -25,29 +25,26 @@ To ensure separation of concerns, the project is structured into three distinct 
     * AWS CLI (configured with ECR permissions for image pulling)
 
 2.  **Setup:**
-    ```bash
     # Start the cluster
-    minikube start --driver=docker
+    `minikube start --driver=docker`
 
     # Add required Helm repositories
-    helm repo add ingress-nginx [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
-    helm repo add prometheus-community [https://prometheus-community.github.io/helm-charts](https://prometheus-community.github.io/helm-charts)
-    helm repo update
-    ```
+    `helm repo add ingress-nginx [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)`
+    `helm repo add prometheus-community [https://prometheus-community.github.io/helm-charts](https://prometheus-community.github.io/helm-charts)`
+    `helm repo update`
+    
 
 ## **Deployment**
 You can deploy the stack components directly from your terminal using Helm.
 
 ### **1. Infrastructure (Ingress & Monitoring):**
 #### Install NGINX Ingress Controller:
-```bash
-helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
-  --namespace ingress-nginx --create-namespace
+`helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace`
 
 #### Install Monitoring Stack:
-```bash
-helm upgrade --install my-prometheus prometheus-community/kube-prometheus-stack \
-  --namespace monitoring --create-namespace
+`helm upgrade --install my-prometheus prometheus-community/kube-prometheus-stack \
+  --namespace monitoring --create-namespace`
 
 ### **2. Database (StatefulSet):**
 #### Deploy MariaDB:
