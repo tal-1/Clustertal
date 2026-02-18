@@ -77,3 +77,4 @@ To visualize the specific uptime of the WordPress pod, use the following PromQL 
 
 #### Dashboard Preview:
 INSERT SCREENSHOT HERE
+
