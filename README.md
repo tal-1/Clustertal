@@ -20,6 +20,7 @@ To ensure separation of concerns, the project is structured into three distinct 
 
 1.  **Prerequisites:**
     * Minikube (running with Docker driver)
+    * kubectl
     * Helm 3+
     * AWS CLI (configured with ECR permissions for image pulling)
 
