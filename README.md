@@ -2,8 +2,6 @@
 
 A production-grade migration of the WordPress stack from Docker Compose to Kubernetes.
 
-This project orchestrates a full WordPress + MySQL deployment using Helm Charts for reproducibility and the Kube-Prometheus-Stack for observability, mimicking a real-world DevOps environment on Minikube.
-
 ## **Features**
 
 * **Orchestration:** Managed via **Helm Charts** for modular and repeatable deployments.
