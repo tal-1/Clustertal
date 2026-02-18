@@ -29,10 +29,11 @@ To ensure separation of concerns, the project is structured into three distinct 
     `minikube start --driver=docker`
 
     # Add required Helm repositories
-    `helm repo add ingress-nginx [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)`
-    `helm repo add prometheus-community [https://prometheus-community.github.io/helm-charts](https://prometheus-community.github.io/helm-charts)`
-    `helm repo update`
-    
+    ```bash
+    helm repo add ingress-nginx [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
+    helm repo add prometheus-community [https://prometheus-community.github.io/helm-charts](https://prometheuscommunity.github.io/helm-charts)
+    helm repo update
+    ```
 
 ## **Deployment**
 You can deploy the stack components directly from your terminal using Helm.
@@ -59,6 +60,7 @@ For a visual interface, you can access the Grafana Dashboard to monitor containe
 
 #### Accessing Grafana
 Since this runs on Minikube, forward the port to your local machine:
+
 `kubectl port-forward -n monitoring svc/my-prometheus-grafana 3000:80 --address 0.0.0.0 &`
 
 URL: http://localhost:3000
