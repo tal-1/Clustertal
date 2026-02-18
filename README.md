@@ -33,7 +33,7 @@ To ensure separation of concerns, the project is structured into three distinct 
     # Add required Helm repositories
     ```bash
     helm repo add ingress-nginx [https://kubernetes.github.io/ingress-nginx](https://kubernetes.github.io/ingress-nginx)
-    helm repo add prometheus-community [https://prometheus-community.github.io/helm-charts](https://prometheuscommunity.github.io/helm-charts)
+    helm repo add prometheus-community [https://prometheus-community.github.io/helm-charts](https://prometheus-community.github.io/helm-charts)
     helm repo update
     ```
 
