@@ -89,7 +89,7 @@ The application is exposed via the NGINX Ingress Controller at the hostname word
 There are 2 options:
 
 A:
-To access the URL from your browser, you must map the Minikube IP to the hostname:
+To access the URL from your browser, you must map the Minikube IP to the hostname (on windows might need to run as Admin):
 ```bash
 # 1. Get Minikube IP
 minikube ip
@@ -108,9 +108,42 @@ If you are running this on a remote server (like EC2) and cannot edit your local
 kubectl port-forward svc/my-wordpress 8080:80 --address 0.0.0.0 &
 ```
 
-URL: http://localhost:3000
+URL: http://localhost:8080
 
-### **3. Cleanup**
+
+## **Monitoring**
+For a visual interface, you can access the Grafana Dashboard to monitor container uptime.
+
+#### Accessing Grafana
+Since this runs on Minikube, forward the port to your local machine:
+```bash
+kubectl port-forward -n monitoring svc/my-prometheus-grafana 3000:80 --address 0.0.0.0 &
+```
+
+URL: http://localhost:8080
+
+Credentials: User: admin | Password: (Retrieve via Secrets)
+password can be retrieved using the command:
+```bash
+kubectl get secret --namespace monitoring my-prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+#### Uptime Visualization
+To visualize the specific uptime of the WordPress pod, use the following PromQL query in the "Explore" tab:
+```bash
+time() - kube_pod_start_time{namespace="default", pod=~"my-wordpress.*"}
+```
+
+* the 'duration (d hh:mm:ss)' option is recommended for more readable uptime:
+<img width="325" height="393" alt="image" src="https://github.com/user-attachments/assets/e88ca3e3-cccc-4361-9f79-3ec2bb6c7726" />
+
+
+#### Dashboard Preview:
+In this example, the pod is running for more than 21 hours, but the dashboard only exists less than 3 hours:
+<img width="462" height="297" alt="image" src="https://github.com/user-attachments/assets/8df6e70b-8e00-4c6f-aa29-25830444edc3" />
+
+
+## **Cleanup**
 To remove the application and database but keep the infrastructure:
 ```bash
 helm uninstall my-wordpress my-db
@@ -122,33 +155,3 @@ helm uninstall ingress-nginx -n ingress-nginx
 helm uninstall my-prometheus -n monitoring
 minikube stop
 ```
-
-## **Monitoring**
-For a visual interface, you can access the Grafana Dashboard to monitor container uptime.
-
-#### Accessing Grafana
-Since this runs on Minikube, forward the port to your local machine:
-```bash
-kubectl port-forward -n monitoring svc/my-prometheus-grafana 3000:80 --address 0.0.0.0 &
-```
-
-
-Credentials: User: admin | Password: (Retrieve via Secrets)
-password can be retrieved using the command:
-```bash
-kubectl get secret --namespace monitoring my-prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-```
-
-#### Uptime Visualization
-To visualize the specific uptime of the WordPress pod, use the following PromQL query in the "Explore" tab:
-```bash
-(time() - kube_pod_start_time{namespace="default", pod=~"my-wordpress.*"}) / 60
-```
-
-* the 'duration (d hh:mm:ss)' option is recommended for more readable uptime:
-<img width="325" height="393" alt="image" src="https://github.com/user-attachments/assets/e88ca3e3-cccc-4361-9f79-3ec2bb6c7726" />
-
-
-#### Dashboard Preview:
-In this example, the pod is running for more than 21 hours, but the dashboard only exists less than 3 hours:
-<img width="462" height="297" alt="image" src="https://github.com/user-attachments/assets/8df6e70b-8e00-4c6f-aa29-25830444edc3" />
