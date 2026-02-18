@@ -120,7 +120,7 @@ Since this runs on Minikube, forward the port to your local machine:
 kubectl port-forward -n monitoring svc/my-prometheus-grafana 3000:80 --address 0.0.0.0 &
 ```
 
-URL: http://localhost:8080
+URL: http://localhost:3000
 
 Credentials: User: admin | Password: (Retrieve via Secrets)
 password can be retrieved using the command:
